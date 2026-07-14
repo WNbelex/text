@@ -1,0 +1,39 @@
+基础命令
+ls -a(显示所有文件) -l（长格式显示） -h（可读大小） -t(时间排序) -r(反向排序)
+pwd 当前所在目录
+cd 进入指定目录
+mkdir -p（递归创建多级目录）
+touch创建文件
+cat -n(显示行号)
+cat name1 name2 > name 合并文件
+more 分页查看 交互式操作 空格下一页 b上一页 /关键词 关键词搜索 q退出
+cp (-r)复制整个目录 -rv显示进度
+mv 
+rm -rf强制删除 -r递归删除
+which 查找命令路径
+find 强大的查找工具
+find / -name "file.txt" find / -name "*.txt"(通配符)
+-type -size -mtime -user -perm
+管道符  | 左边的输出作为右边的输入
+grep文本搜索 grep -in "error" 找出带error的行同时匹配行号
+wc 统计工具 wc -l file.txt 统计行数
+echo
+tail -n 50 data.log 显示最后50行
+tail -f 实时追踪程序，实时滚动显示
+whoami id who users 
+d rwx rwx rwx
+文件类型 | 所有者权限（读写执行） |所属组权限|其他人权限
+chmod 修改权限 chmod 755 script.sh
+chown 修改所有者/所有组
+chown newuser:newgroup file.txt
+apt 软件安装
+systemctl start stop restart reload
+systemctl status显示状态 enable设置自启动 disable关闭自启动
+ps -ef显示进程信息
+ping 测试网络联通
+curl网络请求
+wget -O / url指定目录和文件名
+netstat 查看网络连接状态
+top任务管理器 df磁盘管理器 
+tar -c(压缩文件) -v(解压文件)
+zip 压缩文件 unzip解压文件
