@@ -1,3 +1,4 @@
 git init 在shell页面需要初始化的文件夹里使用
 .gitignore 声明那些文件不要git管理
-1111
+1111 
++1
