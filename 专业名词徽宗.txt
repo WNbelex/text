@@ -1,0 +1,128 @@
+专业名词分类详解
+==================
+
+一、Web 后端框架
+----------------
+
+1. Django
+   领域：Web 应用后端开发
+   语言：Python
+   做什么：一个"大而全"的全栈 Web 框架，内置 ORM（数据库操作）、后台管理界面、用户认证、表单处理等。适合快速构建内容管理系统、电商平台等数据驱动的网站。代表产品：Instagram、Disqus。
+
+2. Flask
+   领域：Web 应用后端开发
+   语言：Python
+   做什么：与 Django 相反，是一个"微框架"，只提供核心的请求路由和响应处理，其余功能靠插件扩展。适合小型 API 服务、微服务，或需要高度定制化的项目。
+
+3. FastAPI
+   领域：Web API 后端开发
+   语言：Python
+   做什么：现代高性能 API 框架，最大特点是自动生成交互式 API 文档（Swagger UI），支持异步处理（async/await），性能接近 Node.js/Go。是目前 Python 后端的新趋势，适合构建 RESTful API 和微服务。
+
+4. Struts2
+   领域：企业级 Web 应用开发
+   语言：Java
+   做什么：基于 MVC 模式的 Java Web 框架，曾是国内银行、政府、电信系统的标配。因历年爆出多个高危远程代码执行漏洞（如 S2-045、S2-057），现已被逐步淘汰，新项目基本不再使用，转向 Spring Boot。
+
+5. Hibernate
+   领域：数据库访问层（ORM）
+   语言：Java
+   做什么：对象关系映射框架，让开发者用操作 Java 对象的方式操作数据库表，不需要手写 SQL。是 Java 生态中与 Spring 配合最紧密的持久化方案。对标产品：MyBatis（国内更流行）。
+
+
+二、前端技术
+----------------
+
+6. TypeScript + React
+   领域：Web 前端/全栈开发
+   语言：TypeScript（JavaScript 的超集）
+   做什么：React 是目前最主流的前端 UI 框架（由 Meta 开发），TypeScript 给 JavaScript 加了静态类型检查。两者结合是当前业界前端开发的事实标准，用于构建单页应用（SPA）、移动端（React Native）、桌面端（Electron）等。
+
+7. React Hooks
+   领域：React 前端开发
+   做什么：React 16.8 引入的函数组件状态管理方案，用 useState、useEffect、useContext 等 Hook 替代传统的 class 组件写法，让代码更简洁、逻辑更可复用。是现代 React 开发的必备技能。
+
+
+三、大数据与分布式计算
+----------------
+
+8. Hadoop
+   领域：大数据存储与分布式计算
+   做什么：大数据技术的开山鼻祖。核心是 HDFS（分布式文件系统，把海量数据分散存储在廉价服务器集群上）和 MapReduce（分布式计算模型）。是大数据基础架构的底座，但实时计算能力弱，正被 Spark 等替代。
+
+9. Spark
+   领域：大数据实时/批量计算
+   做什么：比 Hadoop MapReduce 快 100 倍的分布式计算引擎，核心是内存计算（数据放在内存而非磁盘）。支持 SQL、流式处理（Spark Streaming）、机器学习（MLlib）、图计算。是目前大数据处理的事实标准。
+
+10. Hive
+   领域：大数据数据仓库
+   做什么：架在 Hadoop 之上的数据仓库工具，让用户用类 SQL 语言（HQL）查询海量结构化数据，底层自动翻译成 MapReduce/Spark 作业执行。是数据分析和离线报表的核心工具。
+
+
+四、Web 安全 / 漏洞扫描
+----------------
+
+11. Nessus
+   领域：网络安全漏洞扫描
+   做什么：全球使用最广的系统漏洞扫描器，自动检测服务器、网络设备、数据库、应用系统中已知的安全漏洞（CVE）、配置缺陷、弱口令等，并生成修复报告。属于 Tenable 公司产品，是企业安全合规（等保、ISO 27001）必备工具。
+
+12. AWVS（Acunetix Web Vulnerability Scanner）
+   领域：Web 应用安全扫描
+   做什么：专注于 Web 应用的自动化漏洞扫描，能检测 SQL 注入、XSS（跨站脚本）、CSRF、文件包含等 OWASP Top 10 漏洞。自动爬取网站页面并模拟攻击，输出漏洞详情和修复建议。
+
+13. WebLogic
+   领域：Java 中间件/应用服务器
+   做什么：Oracle 公司的 Java EE 应用服务器，用于部署和运行企业级 Java Web 应用。在国内银行、政府、运营商使用极广。同时也以频繁爆出高危反序列化漏洞（如 CVE-2020-14882）而闻名，是红蓝对抗和渗透测试中的重点攻击目标。
+
+14. AppScan（IBM Security AppScan）
+   领域：应用安全测试（SAST/DAST）
+   做什么：IBM 出品的应用安全测试工具，覆盖静态代码分析（SAST，白盒扫描源码）和动态扫描（DAST，黑盒扫描运行中的应用）。与 AWVS 定位类似但在企业级市场更强势，常用于 DevSecOps 流水线中的安全门禁。
+
+
+五、性能 / 自动化测试
+----------------
+
+15. LoadRunner
+   领域：性能/负载测试
+   做什么：Micro Focus 出品的性能测试工具，能模拟成千上万用户同时访问系统，测试系统在高并发下的响应时间、吞吐量和稳定性。支持 HTTP、WebSocket、数据库等数百种协议。是传统企业性能测试的标杆，但授权费用极高。
+
+16. JMeter
+   领域：性能/压力测试
+   做什么：Apache 开源的性能测试工具，功能与 LoadRunner 类似但完全免费。纯 Java 开发，通过线程组模拟并发用户，支持分布式压测。互联网公司首选，也是接口压力测试（对 API 打高流量）的主流工具。
+
+17. Selenium
+   领域：Web 自动化测试
+   做什么：开源的浏览器自动化框架，能编写脚本操控 Chrome/Firefox/Edge 等浏览器，模拟用户点击、输入、翻页等行为。用于 Web UI 自动化回归测试、爬虫（配合 Headless 模式）、RPA。通常是测试开发工程师的核心技能。
+
+18. Postman
+   领域：API 接口开发与调试
+   做什么：最流行的 API 开发和测试工具，提供图形化界面发送 HTTP 请求（GET/POST/PUT/DELETE 等），查看响应、管理环境变量、编写自动化测试脚本（Pre-request Script / Tests）。从简单的手动调接口到自动化 API 测试流水线都能覆盖，是前后端联调和接口测试的日常工具。
+
+19. Jira
+   领域：项目管理与缺陷跟踪
+   做什么：Atlassian 出品的项目和事务跟踪工具，是全球互联网公司做敏捷开发（Scrum/Kanban）的首选平台。用于 Bug 跟踪、需求管理、任务分配、版本规划（Roadmap）。常与 Confluence（文档）和 Bitbucket（代码仓库）联动，构成完整的研发管理工具链。
+
+
+总结一览表
+----------------
+
+序号  名词            领域              一句话定位
+ 1   Django          Python 后端        全栈 Web 框架，自带一切
+ 2   Hadoop          大数据             分布式存储+计算的基石
+ 3   Spark           大数据             内存级分布式计算引擎
+ 4   Hive            大数据             SQL 查 Hadoop 的数仓工具
+ 5   FastAPI         Python 后端        高性能异步 API 框架
+ 6   Flask           Python 后端        轻量级微框架
+ 7   Struts2         Java 后端          MVC 框架（已边缘化）
+ 8   Hibernate       Java ORM          对象-关系映射框架
+ 9   React Hooks     前端              函数组件状态管理方案
+10   TS + React      前端              当前业界主流前端技术栈
+11   Nessus          安全              系统漏洞扫描器
+12   AWVS            安全              Web 应用漏洞扫描器
+13   WebLogic        中间件             Java EE 应用服务器
+14   AppScan         安全              IBM 应用安全测试工具
+15   LoadRunner      测试              企业级性能压测工具
+16   JMeter          测试              开源性能压测工具
+17   Selenium        测试              Web 浏览器自动化框架
+18   Postman         测试/开发          API 接口调试工具
+19   Jira            项目管理           敏捷开发与缺陷跟踪

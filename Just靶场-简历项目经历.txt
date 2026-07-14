@@ -1,0 +1,48 @@
+项目经历：Just靶场 — Web漏洞实战演练平台
+
+【项目概述】
+独立设计并开发了一套 Web 安全漏洞实战演练平台，涵盖 12 种常见 Web 漏洞类型，
+基于 Spring Boot 4.0 + Thymeleaf + MySQL 全栈实现，支持一键部署到任意服务器。
+
+【技术栈】
+后端：Java 21、Spring Boot 4.0.6、Spring Data JPA、Thymeleaf、MySQL 8.0、Maven
+前端：Thymeleaf 模板引擎、原生 JavaScript、CSS3
+工具：Git、GitHub、MySQL Workbench
+
+【核心职责与成果】
+
+1. 独立完成 12 个漏洞关卡的完整设计与开发，涵盖：
+   - 弱口令（Level 1-2）：基础弱口令登录 + 字典爆破，配套字典文件
+   - 越权（Level 3）：水平越权（查看其他用户信息）+ 垂直越权（普通用户操作管理员资源）
+   - SQL注入（Level 4-5）：联合查询注入 + 布尔/时间盲注，使用 JPA 原生查询构造注入点
+   - XSS（Level 6-7）：反射型（URL参数注入）+ 存储型（博客发帖持久化）
+   - 文件上传（Level 8）：无限制文件类型上传，WebShell 获取
+   - CSRF（Level 9）：无 Token 校验的密码修改接口 + 攻击演示页面（新标签页 + 倒计时伪装）
+   - SSRF（Level 10）：HttpURLConnection 未校验地址，绕过 IP 限制访问内网敏感接口
+   - 反序列化（Level 11）：Fastjson 1.2.24 autoType 漏洞，JNDI 注入（JdbcRowSetImpl）
+   - XXE（Level 12）：SAXParser 外部实体注入，file:// 协议读取服务器文件
+
+2. 技术难点攻克：
+   - 解决 Java 21 模块系统对 Fastjson 的限制（--add-opens 开放 com.sun.rowset）
+   - 解决 Java 21 JAXP 对外部实体的默认禁用（-Djavax.xml.accessExternalDTD=all）
+   - 配置 VS Code / Maven / 命令行三入口 JVM 参数统一管理
+   - 使用 RedirectAttributes（Flash 属性）解决重定向中文参数传递问题
+   - 修复 Vite 构建与 Spring Boot 静态资源冲突（emptyOutDir 导致 CSS 丢失）
+
+3. 工程化实践：
+   - 编写幂等 SQL 初始化脚本（22 个用户 + 博客种子数据），支持重复执行
+   - 实现 setup.bat 一键部署脚本，覆盖 Java/MySQL 安装检查、数据库初始化、编译、启动
+   - 撰写完整 README，覆盖 Windows/Linux 从零部署的每一操作步骤
+   - 采用 Maven Wrapper 实现免安装 Maven 构建
+   - 按漏洞类别组织 Controller/Template 分层结构，代码清晰可维护
+
+4. 安全攻防理解：
+   - 深入理解 OWASP Top 10 中 SQL注入、XSS、CSRF、SSRF、XXE、反序列化的攻击原理
+   - 掌握 Java 生态常见反序列化漏洞（Fastjson JNDI 注入链）的触发条件与修复方案
+   - 理解 XML 解析器安全配置（外部实体、参数实体、DTD 加载的启用与禁用）
+   - 了解 CSRF 攻击的三要素（登录态保持 + 无 Token + 无旧密码校验）
+
+【项目成果】
+- 完成 19 个 Java 控制器、20 个前端模板、2 个 JPA 实体的开发
+- 项目已开源至 GitHub：https://github.com/WNbelex/just-range
+- 可直接用于 Web 安全教学、CTF 训练或面试技术展示

